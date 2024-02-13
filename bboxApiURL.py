@@ -50,13 +50,16 @@ class BboxAPIUrl:
         :return: url string
         """
         # Check if the ip is LAN or WAN
-        if net.IPAddress(self.ip).is_private():
-            url = "http://{}".format(self.ip)
+        try:
+            if net.IPAddress(self.ip).is_private():
+                url = "http://{}".format(self.ip)
+                self.authentication_type = BboxConstant.AUTHENTICATION_TYPE_LOCAL
+            else:
+                url = "https://{}:{}".format(self.ip, BboxConstant.DEFAULT_REMOTE_PORT)
+                self.authentication_type = BboxConstant.AUTHENTICATION_TYPE_REMOTE
+        except ValueError:
+            url = "https://{}:{}".format(self.ip, BboxConstant.DEFAULT_REMOTE_PORT)
             self.authentication_type = BboxConstant.AUTHENTICATION_TYPE_LOCAL
-        else:
-            url = "https://{}:{}".format(self.ip,
-                                         BboxConstant.DEFAULT_REMOTE_PORT)
-            self.authentication_type = BboxConstant.AUTHENTICATION_TYPE_REMOTE
 
         if self.api_class is None:
             url = "{}/{}".format(url, self.API_PREFIX)

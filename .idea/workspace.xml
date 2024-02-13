@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dded5197-c65c-47a3-8b21-22c2f5cfdfa8" name="Changes" comment="add hacs">
+    <list default="true" id="dded5197-c65c-47a3-8b21-22c2f5cfdfa8" name="Changes" comment="add password config">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/device_tracker.py" beforeDir="false" afterPath="$PROJECT_DIR$/device_tracker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bboxApiURL.py" beforeDir="false" afterPath="$PROJECT_DIR$/bboxApiURL.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +61,7 @@
       <workItem from="1707843132771" duration="244000" />
       <workItem from="1707843383156" duration="11000" />
       <workItem from="1707843401258" duration="2602000" />
-      <workItem from="1707847729719" duration="905000" />
+      <workItem from="1707847729719" duration="1415000" />
     </task>
     <task id="LOCAL-00001" summary="add hacs">
       <option name="closed" value="true" />
@@ -71,7 +71,15 @@
       <option name="project" value="LOCAL" />
       <updated>1707848296057</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add password config">
+      <option name="closed" value="true" />
+      <created>1707848669059</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1707848669059</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -79,6 +87,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add hacs" />
-    <option name="LAST_COMMIT_MESSAGE" value="add hacs" />
+    <MESSAGE value="add password config" />
+    <option name="LAST_COMMIT_MESSAGE" value="add password config" />
   </component>
 </project>
