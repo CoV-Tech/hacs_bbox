@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dded5197-c65c-47a3-8b21-22c2f5cfdfa8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/bbox.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="dded5197-c65c-47a3-8b21-22c2f5cfdfa8" name="Changes" comment="add hacs">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/device_tracker.py" beforeDir="false" afterPath="$PROJECT_DIR$/device_tracker.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,11 +61,24 @@
       <workItem from="1707843132771" duration="244000" />
       <workItem from="1707843383156" duration="11000" />
       <workItem from="1707843401258" duration="2602000" />
-      <workItem from="1707847729719" duration="230000" />
+      <workItem from="1707847729719" duration="905000" />
     </task>
+    <task id="LOCAL-00001" summary="add hacs">
+      <option name="closed" value="true" />
+      <created>1707848296057</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1707848296057</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add hacs" />
+    <option name="LAST_COMMIT_MESSAGE" value="add hacs" />
   </component>
 </project>
