@@ -14,21 +14,22 @@ from homeassistant.components.device_tracker import (
     PLATFORM_SCHEMA as PARENT_PLATFORM_SCHEMA,
     DeviceScanner,
 )
-from homeassistant.const import CONF_HOST, CONF_PASSWORD
+from homeassistant.const import CONF_HOST
+from homeassistant.const import CONF_PASSWORD
 import homeassistant.helpers.config_validation as cv
 from homeassistant.util import Throttle
 import homeassistant.util.dt as dt_util
 
 _LOGGER = logging.getLogger(__name__)
 
-DEFAULT_HOST = "192.168.1.254"
+DEFAULT_HOST = "mabbox.bytel.fr"
 
 MIN_TIME_BETWEEN_SCANS = timedelta(seconds=60)
 
 PLATFORM_SCHEMA = PARENT_PLATFORM_SCHEMA.extend(
     {
-        vol.Optional(CONF_HOST, default=DEFAULT_HOST): cv.string,
-        vol.Optional(CONF_PASSWORD, default=""): cv.string
+        vol.Required(CONF_PASSWORD, default=""): cv.string, 
+        vol.Optional(CONF_HOST, default=DEFAULT_HOST): cv.string
     }
 )
 
