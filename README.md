@@ -1,4 +1,52 @@
-# hass_custom_bbox
+# Fork from [Earion68/hass_custom_bbox](https://github.com/earion68/hass_custom_bbox)
+Added HACS information.  
+Tested using:
+| Home Assistant Version | BBox Version | Plugin Version |
+|---|---|---|
+| 2025.1.1 | 23.7.12 | 0.0.2 |
+| 2024.12.3 | ? | 0.0.1 |
+| 2024.11.3 | 23.7.12 | 0.0.1 |
+
+## Installation:
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=CoV-Tech&repository=hacs_bbox&category=intergration)
+
+**OR**
+
+* Open HACS
+* Open the menu on the top right
+* Add a custom repository:
+  - Repository: https://github.com/CoV-Tech/hacs_bbox
+  - Type: integration
+* Search for Bbox and install
+
+
+## Configuration:
+* Add the configuration to `/homeassistant/configuration.yaml`:
+```yaml
+device_tracker:
+  - platform: custom_bbox
+    host: mabbox.bytel.fr
+    password: !secret bbox_password
+
+sensor:
+  - platform: custom_bbox
+    password: !secret bbox_password
+    host: mabbox.bytel.fr
+    monitored_variables:
+      - down_max_bandwidth
+      - up_max_bandwidth
+      - current_down_bandwidth
+      - current_up_bandwidth
+      - uptime
+      - number_of_reboots
+```
+* Add the password to `/homeassistant/secrets.yaml`
+```yaml
+bbox_password: "YOUR_BBOX_PASSWORD_HERE"
+```
+
+# Original README:
+## hass_custom_bbox
 Custom Home Assistant integration for Bbox
 
 Based on Home Assistant Bbox integration: https://www.home-assistant.io/integrations/bbox and PyBbox: https://github.com/HydrelioxGitHub/pybbox
@@ -8,11 +56,11 @@ Merged both codes into one custom component to solve:
 - deprecated constants to be removed in 2025.1
 - the Bbox firmware 23.7.8 which systematically requires login to the API
 
-## Breaking changes
+### Breaking changes
 - The last version fixing the firmware 23.7.8 makes the "password" key in the configuration mandatory.
 - The default host, if not mentioned, will be mabbox.bytel.fr
 
-## Usage:
+### Usage:
 - download all files in a new folder named "custom_bbox" under "custom_components" of the Home Assistant config folder (example: /config/custom_components/custom_bbox)
 - instanciate the custom component in configuration.yaml as below:
 
