@@ -1,11 +1,22 @@
 # Fork from [Earion68/hass_custom_bbox](https://github.com/earion68/hass_custom_bbox)
-Added HACS information.  
-Tested using:
+## ChangeLog
+### 0.0.3
+- Added new Entity: `last_error`
+- Instead of failing to initialize (the random 400 errors on login), 
+  the returned values are now `None` and `last_error` is set to the exception thrown.
+
+### 0.0.2
+- Added HACS information.  
+- Fixed component on Home Assistant 2025.1.1
+
+## Tested using:
+
 | Home Assistant Version | BBox Version | Plugin Version |
-|---|---|---|
-| 2025.1.1 | 23.7.12 | 0.0.2 |
-| 2024.12.3 | ? | 0.0.1 |
-| 2024.11.3 | 23.7.12 | 0.0.1 |
+|------------------------|--------------|----------------|
+| 2025.1.2               | 23.7.12      | 0.0.3          |
+| 2025.1.1               | 23.7.12      | 0.0.2          |
+| 2024.12.3              | ?            | 0.0.1          |
+| 2024.11.3              | 23.7.12      | 0.0.1          |
 
 ## Installation:
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=CoV-Tech&repository=hacs_bbox&category=intergration)
@@ -39,6 +50,7 @@ sensor:
       - current_up_bandwidth
       - uptime
       - number_of_reboots
+      - last_error
 ```
 * Add the password to `/homeassistant/secrets.yaml`
 ```yaml

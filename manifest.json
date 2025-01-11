@@ -8,7 +8,7 @@
     "@TomKauffeld"
   ],
   "iot_class": "local_polling",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "issue_tracker": "https://github/CoV-Tech/hacs_bbox/issues",
   "integration_type": "device"
 }

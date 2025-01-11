@@ -7,6 +7,7 @@ import logging
 import requests
 import voluptuous as vol
 
+from .bboxConstant import BboxConstant
 from .pybbox import Bbox
 
 from homeassistant.components.sensor import (
@@ -31,9 +32,6 @@ from homeassistant.util.dt import utcnow
 _LOGGER = logging.getLogger(__name__)
 
 ATTRIBUTION = "Powered by Bouygues Telecom"
-
-DEFAULT_NAME = "Bbox"
-DEFAULT_HOST = "mabbox.bytel.fr"
 
 MIN_TIME_BETWEEN_UPDATES = timedelta(seconds=60)
 
@@ -69,6 +67,11 @@ SENSOR_TYPES: tuple[SensorEntityDescription, ...] = (
         name="Number of reboot",
         icon="mdi:restart",
     ),
+    SensorEntityDescription(
+        key="last_error",
+        name="Last Error",
+        icon="mdi:connection",
+    ),
 )
 
 SENSOR_TYPES_UPTIME: tuple[SensorEntityDescription, ...] = (
@@ -86,9 +89,9 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
         vol.Required(CONF_MONITORED_VARIABLES): vol.All(
             cv.ensure_list, [vol.In(SENSOR_KEYS)]
         ),
-        vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
+        vol.Optional(CONF_NAME, default=BboxConstant.DEFAULT_NAME): cv.string,
         vol.Required(CONF_PASSWORD, default=""): cv.string,
-        vol.Optional(CONF_HOST, default=DEFAULT_HOST): cv.string
+        vol.Optional(CONF_HOST, default=BboxConstant.DEFAULT_HOST): cv.string
     }
 )
 
@@ -143,9 +146,11 @@ class BboxUptimeSensor(SensorEntity):
     def update(self):
         """Get the latest data from Bbox and update the state."""
         self.bbox_data.update()
-        self._attr_native_value = utcnow() - timedelta(
-            seconds=self.bbox_data.router_infos["device"]["uptime"]
-        )
+        sensor_type = self.entity_description.key
+        if sensor_type == "uptime" and self.bbox_data.router_infos is not None:
+            self._attr_native_value = utcnow() - timedelta(
+                seconds=self.bbox_data.router_infos["device"]["uptime"]
+            )
 
 
 class BboxSensor(SensorEntity):
@@ -166,26 +171,30 @@ class BboxSensor(SensorEntity):
         """Get the latest data from Bbox and update the state."""
         self.bbox_data.update()
         sensor_type = self.entity_description.key
-        if sensor_type == "down_max_bandwidth":
+        if self.bbox_data.data is None and sensor_type != "last_error":
+            self._attr_native_value = None
+        if sensor_type == "down_max_bandwidth" and self.bbox_data.data is not None:
             self._attr_native_value = round(
                 self.bbox_data.data["rx"]["maxBandwidth"] / 1000, 2
             )
-        elif sensor_type == "up_max_bandwidth":
+        elif sensor_type == "up_max_bandwidth" and self.bbox_data.data is not None:
             self._attr_native_value = round(
                 self.bbox_data.data["tx"]["maxBandwidth"] / 1000, 2
             )
-        elif sensor_type == "current_down_bandwidth":
+        elif sensor_type == "current_down_bandwidth" and self.bbox_data.data is not None:
             self._attr_native_value = round(
                 self.bbox_data.data["rx"]["bandwidth"] / 1000, 2
             )
-        elif sensor_type == "current_up_bandwidth":
+        elif sensor_type == "current_up_bandwidth" and self.bbox_data.data is not None:
             self._attr_native_value = round(
                 self.bbox_data.data["tx"]["bandwidth"] / 1000, 2
             )
-        elif sensor_type == "number_of_reboots":
+        elif sensor_type == "number_of_reboots" and self.bbox_data.data is not None:
             self._attr_native_value = self.bbox_data.router_infos["device"][
                 "numberofboots"
             ]
+        elif sensor_type == "last_error":
+            self._attr_native_value = self.bbox_data.last_error
 
 
 class BboxData:
@@ -197,18 +206,21 @@ class BboxData:
         self.router_infos = None
         self.host = host
         self.password = password
+        self.last_error = None
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
         """Get the latest data from the Bbox."""
 
         try:
+            self.last_error = None
             box = Bbox(ip=self.host)
             box.login(self.password)
             self.data = box.get_ip_stats()
             self.router_infos = box.get_bbox_info()
-        except requests.exceptions.HTTPError as error:
-            _LOGGER.error(error)
+        except Exception as error:
+            self.last_error = error
             self.data = None
             self.router_infos = None
+            _LOGGER.error(error)
             return False

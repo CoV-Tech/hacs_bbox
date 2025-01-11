@@ -7,6 +7,7 @@ import logging
 
 import voluptuous as vol
 
+from .bboxConstant import BboxConstant
 from .pybbox import Bbox
 
 from homeassistant.components.device_tracker import (
@@ -22,14 +23,12 @@ import homeassistant.util.dt as dt_util
 
 _LOGGER = logging.getLogger(__name__)
 
-DEFAULT_HOST = "mabbox.bytel.fr"
-
 MIN_TIME_BETWEEN_SCANS = timedelta(seconds=60)
 
 PLATFORM_SCHEMA = PARENT_PLATFORM_SCHEMA.extend(
     {
         vol.Required(CONF_PASSWORD, default=""): cv.string, 
-        vol.Optional(CONF_HOST, default=DEFAULT_HOST): cv.string
+        vol.Optional(CONF_HOST, default=BboxConstant.DEFAULT_HOST): cv.string
     }
 )
 
@@ -38,7 +37,7 @@ def get_scanner(hass, config):
     """Validate the configuration and return a Bbox scanner."""
     scanner = BboxDeviceScanner(config[DOMAIN])
 
-    return scanner if scanner.success_init else None
+    return scanner
 
 
 Device = namedtuple("Device", ["mac", "name", "ip", "last_update"])
@@ -83,23 +82,27 @@ class BboxDeviceScanner(DeviceScanner):
         """
         _LOGGER.info("Scanning")
 
-        box = Bbox(ip=self.host)
-        if len(self.password) > 0:
-            box.login(self.password)
-        result = box.get_all_connected_devices()
+        try:
+            box = Bbox(ip=self.host)
+            if len(self.password) > 0:
+                box.login(self.password)
+            result = box.get_all_connected_devices()
 
-        now = dt_util.now()
-        last_results = []
-        for device in result:
-            if device["active"] != 1:
-                continue
-            last_results.append(
-                Device(
-                    device["macaddress"], device["hostname"], device["ipaddress"], now
+            now = dt_util.now()
+            last_results = []
+            for device in result:
+                if device["active"] != 1:
+                    continue
+                last_results.append(
+                    Device(
+                        device["macaddress"], device["hostname"], device["ipaddress"], now
+                    )
                 )
-            )
 
-        self.last_results = last_results
+            self.last_results = last_results
 
-        _LOGGER.info("Scan successful")
-        return True
+            _LOGGER.info("Scan successful")
+            return True
+        except Exception as ex:
+            _LOGGER.error("Scan failed: %s", ex)
+            return False
