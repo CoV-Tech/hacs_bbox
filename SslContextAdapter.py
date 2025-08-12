@@ -12,9 +12,7 @@ class SslContextAdapter(HTTPAdapter):
     def __init__(self, **kwargs):
         ctx = create_urllib3_context()
         ctx.load_default_certs()
-        ciphers = ctx.get_ciphers()
-        ciphers += 'HIGH:!DH:!aNULL'
-        ctx.set_ciphers(ciphers)
+        ctx.set_ciphers('HIGH:!DH:!aNULL')
         self.context = ctx
         super().__init__(**kwargs)
 
