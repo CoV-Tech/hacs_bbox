@@ -1,6 +1,4 @@
 from .bboxConstant import BboxConstant
-import netaddr as net
-
 
 class BboxAPIUrl:
     """
