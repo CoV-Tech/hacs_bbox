@@ -1,8 +1,7 @@
 import requests
-from .bboxConstant import BboxConstant
-from .bboxAuth import BboxAuth
-from .bboxApiURL import BboxAPIUrl
 
+from .SslContextAdapter import SslContextAdapter
+from .bboxConstant import BboxConstant
 
 class BboxApiCall:
 
@@ -21,21 +20,17 @@ class BboxApiCall:
         self.parameters = parameters
         # Dict with local auth needed, remote auth needed and current level of auth
         self.auth = auth
+
+        self.session = requests.Session()
+        self.session.mount('https://', SslContextAdapter())
+
         # Get the right call method
         if http_method == BboxConstant.HTTP_METHOD_GET:
-            self.call_method = requests.get
+            self.call_method = self.session.get
         elif http_method == BboxConstant.HTTP_METHOD_POST:
-            self.call_method = requests.post
+            self.call_method = self.session.post
         elif http_method == BboxConstant.HTTP_METHOD_PUT:
-            self.call_method = requests.put
-            
-            
-        requests.packages.urllib3.util.ssl_.DEFAULT_CIPHERS += 'HIGH:!DH:!aNULL'
-        try:
-            requests.packages.urllib3.contrib.pyopenssl.DEFAULT_SSL_CIPHER_LIST += 'HIGH:!DH:!aNULL'
-        except AttributeError:
-            # no pyopenssl support used / needed / available
-            pass
+            self.call_method = self.session.put
 
     def execute_api_request(self):
         """
