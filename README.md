@@ -1,5 +1,8 @@
 # Fork from [Earion68/hass_custom_bbox](https://github.com/earion68/hass_custom_bbox)
 ## ChangeLog
+### 0.0.4
+- use create_urllib3_context instead of DEFAULT_CIPHERS inorder to remain compatible with urlib3>=2
+
 ### 0.0.3
 - Added new Entity: `last_error`
 - Instead of failing to initialize (the random 400 errors on login), 
