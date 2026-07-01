@@ -1,4 +1,9 @@
 # Fork from [Earion68/hass_custom_bbox](https://github.com/earion68/hass_custom_bbox)
+
+> [!WARNING]
+> I don't own a BBox anymore and can't test it anymore.  
+> It's recommended to use [Earion68's Version](https://github.com/earion68/hass_custom_bbox) over this one.
+
 ## ChangeLog
 ### 0.0.4
 - use create_urllib3_context instead of DEFAULT_CIPHERS inorder to remain compatible with urlib3>=2
